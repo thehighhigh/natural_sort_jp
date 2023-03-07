@@ -22,6 +22,9 @@ NaturalSortJp.sort(
   )
 # => ["第1回", "第２回", "第３回", "第10回", "第２０回", "第２１回"]
 
+NaturalSortJp.sort(["a11", "a2", "ａ1０", "ａ１"])
+# => ["ａ１", "a2", "ａ1０", "a11"]
+
 
 # It is not affected by the presence or absence of 0-filling.
 
