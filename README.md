@@ -1,8 +1,8 @@
 # NaturalSortJp
 
-TODO: Delete this and the text below, and describe your gem
+natural_sort_jp can discriminate between full-width and half-width numbers, which are unique to the Japanese language, and perform natural sorting.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/natural_sort_jp`. To experiment with that code, run `bin/console` for an interactive prompt.
+By using this gem, you can realize the special sorting (natural sort) used in file explorers such as google drive.
 
 ## Installation
 
@@ -19,12 +19,6 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 
 TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
