@@ -23,7 +23,7 @@ NaturalSortJp.sort(
 # => ["第1回", "第２回", "第３回", "第10回", "第２０回", "第２１回"]
 
 
-# even if mix of zenkaku and hankaku character.
+# even if mix of zenkaku and hankaku alphabet.
 
 NaturalSortJp.sort(["a11", "a2", "ａ1０", "ａ１"])
 # => ["ａ１", "a2", "ａ1０", "a11"]
