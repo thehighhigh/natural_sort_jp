@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
-require_relative "natural_sort_jp/version"
+require 'natural_sort_jp/element'
 
 module NaturalSortJp
-  class Error < StandardError; end
-  # Your code goes here...
+  
+  def self.sort(array)
+    array.sort_by { |x| convert(x) }
+  end
+
+  def self.convert(title)
+    elements = title.to_s.gsub(/[0-9０-９]+/, ',\&,').split(',')
+    elements.map { |t| Element.new(t) }
+  end
 end
