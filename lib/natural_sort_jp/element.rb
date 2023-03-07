@@ -7,8 +7,7 @@ module NaturalSortJp
     SORT_PRIORITY = { int: 1, str: 2 }.freeze
 
     def initialize(val)
-      val.tr!('０-９', '0-9') if val =~ /[０-９]/
-      @val = val
+      @val = zenkaku2hankaku(val)
     end
 
     def <=>(other)
@@ -21,6 +20,15 @@ module NaturalSortJp
       else
         [SORT_PRIORITY[:str], @val]
       end
+    end
+
+    private
+
+    def zenkaku2hankaku(val)
+      val.tr!('０-９', '0-9') if val =~ /[０-９]/
+      val.tr!('ａ-ｚ', 'a-z') if val =~ /[ａ-ｚ]/
+      val.tr!('Ａ-Ｚ', 'A-Z') if val =~ /[Ａ-Ｚ]/
+      val
     end
   end
 end

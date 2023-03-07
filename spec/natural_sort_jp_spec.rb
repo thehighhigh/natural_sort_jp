@@ -364,4 +364,16 @@ RSpec.describe NaturalSortJp do
       end
     end
   end
+
+  context '全角と半角のアルファベットの混合' do
+    let(:a) { 'a' }
+    let(:b) { 'ｂ' }
+    let(:c) { 'ｃ' }
+    let(:d) { 'd' }
+    let(:e) { 'ｅ' }
+
+    it '並び替えが日付順になる' do
+      expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([a, b, c, d, e])
+    end
+  end
 end
