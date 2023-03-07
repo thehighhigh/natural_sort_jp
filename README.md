@@ -1,6 +1,6 @@
 # NaturalSortJp
 
-**natural_sort_jp** can discriminate between full-width and half-width numbers (zenkaku and hankaku), which are unique to the Japanese language, and perform natural sorting.
+**natural_sort_jp** can discriminate between full-width and half-width characters (zenkaku and hankaku), which are unique to the Japanese language, and perform natural sorting.
 
 By using this gem, you can realize the special sorting (natural sort) used in file explorers such as google drive.
 
@@ -15,12 +15,15 @@ $ gem install natural_sort_jp
 ```ruby
 require 'natural_sort_jp'
 
-# Can use natural sort even if mix of zenkaku and hankaku.
+# Can use natural sort even if mix of zenkaku and hankaku number.
 
 NaturalSortJp.sort(
   ["第1回", "第２回", "第３回", "第10回", "第２０回", "第２１回"]
   )
 # => ["第1回", "第２回", "第３回", "第10回", "第２０回", "第２１回"]
+
+
+# even if mix of zenkaku and hankaku character.
 
 NaturalSortJp.sort(["a11", "a2", "ａ1０", "ａ１"])
 # => ["ａ１", "a2", "ａ1０", "a11"]
