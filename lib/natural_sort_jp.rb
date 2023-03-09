@@ -4,12 +4,10 @@ require 'natural_sort_jp/element'
 
 module NaturalSortJp
   
-  def self.sort(array, by: nil)
-    if by
-      self.sort_by(array, by)
-    else
-      array.sort_by { |x| convert(x) }
-    end
+  def self.sort(array, by: nil, desc: false)
+    array = by ? self.sort_by(array, by) : array.sort_by { |x| convert(x) }
+    return array.reverse if desc
+    array
   end
 
   def self.sort_by(array, attribute)

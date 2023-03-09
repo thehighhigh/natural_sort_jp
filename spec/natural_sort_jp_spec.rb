@@ -403,4 +403,32 @@ RSpec.describe NaturalSortJp do
       end
     end
   end
+
+  context 'desc引数ありの場合' do
+    context 'desc: true' do
+      let(:a) { '1回' }
+      let(:b) { '2回' }
+      let(:c) { '10回' }
+      let(:d) { '3回' }
+      let(:e) { '4回' }
+
+      it '並び替えが数字逆順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e], desc: true)).to eql([c, e, d, b, a])
+      end
+    end
+
+    context 'by: :title, desc: true' do
+      let(:a) { { title: '第1回定例',  id: 10 } }
+      let(:b) { { title: '第2回定例',  id: 20 } }
+      let(:c) { { title: '第１０回定例',  id: 12 } }
+      let(:d) { { title: '第20回定例',  id: 1 } }
+      let(:e) { { title: '第３回定例', id: 2 } }
+
+      let(:option) { {by: :title, desc: true} }
+
+      it '並び替えがタイトル逆順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e], **option)).to eql([d, c, e, b, a])
+      end
+    end
+  end
 end
