@@ -36,6 +36,43 @@ NaturalSortJp.sort(
   )
 # => ["2022/1/1", "２０２２/０１/０２", "2022/01/03", "２０２２/１/１０", "2023/1/1"]
 
+
+# It can also be used in hashes, structures, and active record data structures.
+
+NaturalSortJp.sort(
+  [
+    { id: 1, date: '2022/1/1'},
+    { id: 2, date: '２０２２/０１/１０'},
+    { id: 3, date: '2022/01/03'},
+    { id: 4, date: '２０２２/１/2'},
+    { id: 5, date: '2023/1/1'}
+  ], by: :date)
+# => [
+  {:id=>1, :date=>"2022/1/1"},
+  {:id=>4, :date=>"２０２２/１/2"},
+  {:id=>3, :date=>"2022/01/03"},
+  {:id=>2, :date=>"２０２２/０１/１０"},
+  {:id=>5, :date=>"2023/1/1"}
+  ]
+
+# and can use asc or desc option. 
+
+NaturalSortJp.sort(
+  [
+    { id: 1, date: '2022/1/1'},
+    { id: 2, date: '２０２２/０１/１０'},
+    { id: 3, date: '2022/01/03'},
+    { id: 4, date: '２０２２/１/2'},
+    { id: 5, date: '2023/1/1'}
+  ], by: :date, desc: true)
+ # => [
+ {:id=>5, :date=>"2023/1/1"},                   
+ {:id=>2, :date=>"２０２２/０１/１０"},         
+ {:id=>3, :date=>"2022/01/03"},                 
+ {:id=>4, :date=>"２０２２/１/2"},              
+ {:id=>1, :date=>"2022/1/1"}
+ ]
+
 ```
 
 ## Contributing
