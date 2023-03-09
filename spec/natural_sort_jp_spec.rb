@@ -376,4 +376,31 @@ RSpec.describe NaturalSortJp do
       expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([a, b, c, d, e])
     end
   end
+
+  context 'by引数ありの場合' do
+    context 'Hash' do
+      let(:a) { { title: '第1回定例',  id: 10 } }
+      let(:b) { { title: '第2回定例',  id: 20 } }
+      let(:c) { { title: '第１０回定例',  id: 12 } }
+      let(:d) { { title: '第20回定例',  id: 1 } }
+      let(:e) { { title: '第３回定例', id: 2 } }
+
+      it '並び替えがタイトル順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e], by: :title)).to eql([a, b, e, c, d])
+      end
+    end
+
+    context 'Struct' do
+      let(:struct) { Struct.new(:title, :id) }
+      let(:a) { struct.new('第1回定例', 10) }
+      let(:b) { struct.new('第2回定例', 20) }
+      let(:c) { struct.new('第１０回定例', 12) }
+      let(:d) { struct.new('第20回定例', 1) }
+      let(:e) { struct.new('第３回定例', 2) }
+
+      it '並び替えがタイトル順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e], by: :title)).to eql([a, b, e, c, d])
+      end
+    end
+  end
 end
