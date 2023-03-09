@@ -42,6 +42,6 @@ NaturalSortJp.sort(
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/thehighhigh/natural_sort_jp.
 
-## Lisence
+## License
 
 The gem is available as open source under the terms of the MIT License.
