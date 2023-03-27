@@ -15,8 +15,8 @@ module NaturalSortJp
   end
 
   def self.convert(title)
-    elements = title.to_s.gsub(/[0-9０-９]+/, ',\&,').split(',')
-    elements.map { |t| Element.new(t) }
+    elements = title.to_s.scan(/([^0-9０-９]*)([0-9０-９]*)/).flatten
+    elements.map { |t| Element.new(t) if t != '' }
   end
 
   def self.referenced_by_attribute(obj, attribute)
