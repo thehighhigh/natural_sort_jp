@@ -16,7 +16,12 @@ module NaturalSortJp
 
   def self.convert(title)
     elements = title.to_s.scan(/([^0-9０-９]*)([0-9０-９]*)/).flatten
-    elements.map { |t| Element.new(t) if t != '' }
+    converted = []
+    elements.each do |t|
+      next if t.empty?
+      converted << Element.new(t)
+    end
+    converted
   end
 
   def self.referenced_by_attribute(obj, attribute)
