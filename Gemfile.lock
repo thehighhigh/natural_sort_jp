@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    natural_sort_jp (0.4.2)
+    natural_sort_jp (0.4.3)
 
 GEM
   remote: https://rubygems.org/
