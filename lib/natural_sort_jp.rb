@@ -3,6 +3,8 @@
 require 'natural_sort_jp/element'
 
 module NaturalSortJp
+  HANKAKU_BLANK = ' '
+  ZENKKAU_BLANK = '　'
   
   def self.sort(array, by: nil, desc: false)
     array = by ? self.sort_by(array, by) : array.sort_by { |x| convert(x) }
@@ -15,12 +17,34 @@ module NaturalSortJp
   end
 
   def self.convert(title)
-    elements = title.to_s.scan(/([^0-9０-９]*)([0-9０-９]*)/).flatten
-    converted = []
-    elements.each do |t|
-      next if t.empty?
-      converted << Element.new(t)
+    pos, stack, converted = 0, [], []
+    while pos <= title.size do
+      target = title[pos]
+      case target
+      when HANKAKU_BLANK
+        unless stack.size == 0
+          converted << Element.new(stack.join)
+          stack = []
+        end
+        converted << Element.new(:hankaku_blank)
+      when ZENKKAU_BLANK
+        unless stack.size == 0
+          converted << Element.new(stack.join)
+          stack = []
+        end
+        converted << Element.new(:zenkaku_blank)
+      when /[0-9０-９]/
+        stack << target
+      when /[^0-9０-９]/
+        unless stack.size == 0
+          converted << Element.new(stack.join)
+          stack = []
+        end
+        converted << Element.new(target)
+      end
+      pos += 1
     end
+    converted << Element.new(stack.join) unless stack.size == 0
     converted
   end
 

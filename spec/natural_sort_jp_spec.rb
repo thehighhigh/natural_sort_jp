@@ -3,6 +3,48 @@
 require 'natural_sort_jp'
 
 RSpec.describe NaturalSortJp do
+  context '先頭が空白のとき' do
+    let(:hankaku_blank) { ' ' }
+    let(:zenkaku_blank) { '　' }
+
+    context '全て半角の空白のとき' do
+      let(:a) { hankaku_blank * 1 + 'a' }
+      let(:b) { hankaku_blank * 2 + 'a' }
+      let(:c) { hankaku_blank * 5 + 'a' }
+      let(:d) { hankaku_blank * 3 + 'a' }
+      let(:e) { hankaku_blank * 4 + 'a' }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([c, e, d, b, a])
+      end
+    end
+
+    context '全て全角の空白のとき' do
+      let(:a) { zenkaku_blank * 1 + 'a' }
+      let(:b) { zenkaku_blank * 2 + 'a' }
+      let(:c) { zenkaku_blank * 5 + 'a' }
+      let(:d) { zenkaku_blank * 3 + 'a' }
+      let(:e) { zenkaku_blank * 4 + 'a' }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([c, e, d, b, a])
+      end
+    end
+
+    context '半角全角の空白が混合しているとき' do
+      let(:a) { hankaku_blank * 1 + 'a' }
+      let(:b) { zenkaku_blank * 1 + 'a' }
+      let(:c) { hankaku_blank * 2 + 'a' }
+      let(:d) { zenkaku_blank * 2 + 'a' }
+      let(:e) { hankaku_blank * 3 + 'a' }
+      let(:f) { zenkaku_blank * 3 + 'a' }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e, f])).to eql([f, e, d, c, b, a])
+      end
+    end
+  end
+
   context '数字と日本語の混合' do
     context 'n回' do
       context '数字が全て半角' do
