@@ -31,7 +31,7 @@ RSpec.describe NaturalSortJp do
       end
     end
 
-    context '半角全角の空白が混合しているとき' do
+    context '半角全角の空白を先頭に持つ文字が混合しているとき' do
       let(:a) { hankaku_blank * 1 + 'a' }
       let(:b) { zenkaku_blank * 1 + 'a' }
       let(:c) { hankaku_blank * 2 + 'a' }
@@ -39,8 +39,21 @@ RSpec.describe NaturalSortJp do
       let(:e) { hankaku_blank * 3 + 'a' }
       let(:f) { zenkaku_blank * 3 + 'a' }
 
+      it '半角全角の順かつ空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e, f])).to eql([e, f, c, d, a, b])
+      end
+    end
+
+    context '先頭の空白が半角全角の混合文字のとき' do
+      let(:hz) { hankaku_blank * 1 + zenkaku_blank * 1 + 'a' }
+      let(:zhh) { zenkaku_blank * 1 + hankaku_blank * 2 + 'a' }
+      let(:hhzz) { hankaku_blank * 2 + zenkaku_blank * 2 + 'a' }
+      let(:zzhh) { zenkaku_blank * 2 + hankaku_blank * 3 + 'a' }
+      let(:hhhzzz) { hankaku_blank * 3 + zenkaku_blank * 3 + 'a' }
+      let(:zzzhhhh) { zenkaku_blank * 3 + hankaku_blank * 4 + 'a' }
+
       it '空白が多い順になる' do
-        expect(NaturalSortJp.sort([a, b, c, d, e, f])).to eql([f, e, d, c, b, a])
+        expect(NaturalSortJp.sort([hz, zhh, hhzz, zzhh, hhhzzz, zzzhhhh])).to eql([zzzhhhh, hhhzzz, zzhh, hhzz, zhh, hz])
       end
     end
   end

@@ -17,34 +17,56 @@ module NaturalSortJp
   end
 
   def self.convert(title)
-    pos, stack, converted = 0, [], []
+    pos, blank_hash, int_stack, converted = 0, {}, [], []
     while pos <= title.size do
       target = title[pos]
       case target
       when HANKAKU_BLANK
-        unless stack.size == 0
-          converted << Element.new(stack.join)
-          stack = []
+        unless int_stack.size == 0
+          converted << Element.new(int_stack.join)
+          int_stack = []
         end
-        converted << Element.new(:hankaku_blank)
+        blank_hash[:hankaku_blank] ||= 0
+        blank_hash[:hankaku_blank] += 1
       when ZENKKAU_BLANK
-        unless stack.size == 0
-          converted << Element.new(stack.join)
-          stack = []
+        unless int_stack.size == 0
+          converted << Element.new(int_stack.join)
+          int_stack = []
         end
-        converted << Element.new(:zenkaku_blank)
+        blank_hash[:zenkaku_blank] ||= 0
+        blank_hash[:zenkaku_blank] += 1
       when /[0-9０-９]/
-        stack << target
+        unless blank_hash.size == 0
+          if blank_hash[:zenkaku_blank] && blank_hash[:hankaku_blank]
+            converted << Element.new([:blank_mix, blank_hash[:zenkaku_blank] + blank_hash[:hankaku_blank]])
+          elsif blank_hash[:zenkaku_blank]
+            converted << Element.new([:zenkaku_blank, blank_hash[:zenkaku_blank]])
+          elsif blank_hash[:hankaku_blank]
+            converted << Element.new([:hankaku_blank, blank_hash[:hankaku_blank]])
+          end
+          blank_hash = {}
+        end
+        int_stack << target
       when /[^0-9０-９]/
-        unless stack.size == 0
-          converted << Element.new(stack.join)
-          stack = []
+        unless blank_hash.size == 0
+          if blank_hash[:zenkaku_blank] && blank_hash[:hankaku_blank]
+            converted << Element.new([:blank_mix, blank_hash[:zenkaku_blank] + blank_hash[:hankaku_blank]])
+          elsif blank_hash[:zenkaku_blank]
+            converted << Element.new([:zenkaku_blank, blank_hash[:zenkaku_blank]])
+          elsif blank_hash[:hankaku_blank]
+            converted << Element.new([:hankaku_blank, blank_hash[:hankaku_blank]])
+          end
+          blank_hash = {}
+        end
+        unless int_stack.size == 0
+          converted << Element.new(int_stack.join)
+          int_stack = []
         end
         converted << Element.new(target)
       end
       pos += 1
     end
-    converted << Element.new(stack.join) unless stack.size == 0
+    converted << Element.new(int_stack.join) unless int_stack.size == 0
     converted
   end
 
