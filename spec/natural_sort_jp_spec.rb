@@ -3,6 +3,62 @@
 require 'natural_sort_jp'
 
 RSpec.describe NaturalSortJp do
+  context '先頭が空白のとき' do
+    let(:hankaku_blank) { ' ' }
+    let(:zenkaku_blank) { '　' }
+
+    context '全て半角の空白のとき' do
+      let(:a) { "#{hankaku_blank * 1}a" }
+      let(:b) { "#{hankaku_blank * 2}a" }
+      let(:c) { "#{hankaku_blank * 5}a" }
+      let(:d) { "#{hankaku_blank * 3}a" }
+      let(:e) { "#{hankaku_blank * 4}a" }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([c, e, d, b, a])
+      end
+    end
+
+    context '全て全角の空白のとき' do
+      let(:a) { "#{zenkaku_blank * 1}a" }
+      let(:b) { "#{zenkaku_blank * 2}a" }
+      let(:c) { "#{zenkaku_blank * 5}a" }
+      let(:d) { "#{zenkaku_blank * 3}a" }
+      let(:e) { "#{zenkaku_blank * 4}a" }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([c, e, d, b, a])
+      end
+    end
+
+    context '半角全角の空白を先頭に持つ文字が混合しているとき' do
+      let(:a) { "#{hankaku_blank * 1}a" }
+      let(:b) { "#{zenkaku_blank * 1}a" }
+      let(:c) { "#{hankaku_blank * 2}a" }
+      let(:d) { "#{zenkaku_blank * 2}a" }
+      let(:e) { "#{hankaku_blank * 3}a" }
+      let(:f) { "#{zenkaku_blank * 3}a" }
+
+      it '半角全角の順かつ空白が多い順になる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e, f])).to eql([e, f, c, d, a, b])
+      end
+    end
+
+    context '先頭の空白が半角全角の混合文字のとき' do
+      let(:hz) { "#{hankaku_blank * 1}#{zenkaku_blank * 1}a" }
+      let(:zhh) { "#{zenkaku_blank * 1}#{hankaku_blank * 2}a" }
+      let(:hhzz) { "#{hankaku_blank * 2}#{zenkaku_blank * 2}a" }
+      let(:zzhh) { "#{zenkaku_blank * 2}#{hankaku_blank * 3}a" }
+      let(:hhhzzz) { "#{hankaku_blank * 3}#{zenkaku_blank * 3}a" }
+      let(:zzzhhhh) { "#{zenkaku_blank * 3}#{hankaku_blank * 4}a" }
+
+      it '空白が多い順になる' do
+        expect(NaturalSortJp.sort([hz, zhh, hhzz, zzhh, hhhzzz,
+                                   zzzhhhh])).to eql([zzzhhhh, hhhzzz, zzhh, hhzz, zhh, hz])
+      end
+    end
+  end
+
   context '数字と日本語の混合' do
     context 'n回' do
       context '数字が全て半角' do
@@ -424,7 +480,7 @@ RSpec.describe NaturalSortJp do
       let(:d) { { title: '第20回定例',  id: 1 } }
       let(:e) { { title: '第３回定例', id: 2 } }
 
-      let(:option) { {by: :title, desc: true} }
+      let(:option) { { by: :title, desc: true } }
 
       it '並び替えがタイトル逆順になる' do
         expect(NaturalSortJp.sort([a, b, c, d, e], **option)).to eql([d, c, e, b, a])
