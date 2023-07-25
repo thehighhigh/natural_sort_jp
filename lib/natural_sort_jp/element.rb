@@ -5,10 +5,10 @@ module NaturalSortJp
     include Comparable
 
     SORT_PRIORITY = { blank: 1, int: 2, str: 3 }.freeze
-    BLANK_SORT_PRIORITY = { hankaku: 1, zenkaku: 2, mix: 3 }
+    BLANK_SORT_PRIORITY = { hankaku: 1, zenkaku: 2, mix: 3 }.freeze
 
     def initialize(val)
-      @val = (val.is_a? Array) ? val : zenkaku2hankaku(val) 
+      @val = (val.is_a? Array) ? val : zenkaku2hankaku(val)
     end
 
     def <=>(other)
