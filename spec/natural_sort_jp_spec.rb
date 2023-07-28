@@ -433,6 +433,20 @@ RSpec.describe NaturalSortJp do
     end
   end
 
+  context '記号のソート' do
+    context 'すべて半角' do
+      let(:a) { '@a' }
+      let(:b) { '_a' }
+      let(:c) { '-a' }
+      let(:d) { ',a' }
+      let(:e) { ' a' }
+
+      it '並び替えが期待通りになる' do
+        expect(NaturalSortJp.sort([a, b, c, d, e])).to eql([e, b, c, d, a])
+      end
+    end
+  end
+
   context 'by引数ありの場合' do
     context 'Hash' do
       let(:a) { { title: '第1回定例',  id: 10 } }
