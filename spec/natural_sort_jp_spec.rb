@@ -32,15 +32,15 @@ RSpec.describe NaturalSortJp do
     end
 
     context '半角全角の空白を先頭に持つ文字が混合しているとき' do
-      let(:a) { "#{hankaku_blank * 1}a" }
-      let(:b) { "#{zenkaku_blank * 1}a" }
-      let(:c) { "#{hankaku_blank * 2}a" }
-      let(:d) { "#{zenkaku_blank * 2}a" }
-      let(:e) { "#{hankaku_blank * 3}a" }
-      let(:f) { "#{zenkaku_blank * 3}a" }
+      let(:h) { "#{hankaku_blank * 1}a" }
+      let(:z) { "#{zenkaku_blank * 1}a" }
+      let(:hh) { "#{hankaku_blank * 2}a" }
+      let(:zz) { "#{zenkaku_blank * 2}a" }
+      let(:hhh) { "#{hankaku_blank * 3}a" }
+      let(:zzz) { "#{zenkaku_blank * 3}a" }
 
       it '半角全角の順かつ空白が多い順になる' do
-        expect(NaturalSortJp.sort([a, b, c, d, e, f])).to eql([e, f, c, d, a, b])
+        expect(NaturalSortJp.sort([h, z, hh, zz, hhh, zzz])).to eql([zzz, hhh, zz, hh, z, h])
       end
     end
 
